@@ -1,0 +1,81 @@
+@begin(section)
+@title(Index)
+
+@b(unix-pipes) provides a Common Lisp interface to Unix pipes. Note
+that this currently only works on Linux.
+
+@begin(deflist)
+
+@term(Source)
+@begin(def)
+
+The source code may be obtained from
+@link[uri="https://github.com/kisom/unix-pipes/"](Github).
+
+@end(def)
+
+@term(Setup and Usage)
+@begin(def)
+
+@b(unix-pipes) requires
+@link[uri="https://quicklisp.org/"](Quicklisp). The repository should
+be cloned into the @c(local-projects) directory under the Quicklisp
+home.
+
+To use @b(unix-pipes), either add it to the @c(:depends-on) section of
+your project's @c(.asd), or @c(ql:quickload :unix-pipes).
+
+@end(def)
+
+@term(License)
+@begin(def)
+
+@b(unix-pipes) is released under the
+@link[uri="https://raw.githubusercontent.com/kisom/unix-pipes/master/LICENSE"](MIT)
+license.
+
+@end(def)
+@end(deflist)
+
+@end(section)
+
+
+@begin(section)
+@title(Overview)
+
+Unix pipes provide two-way communication inside of a process; a pipe
+is one-way. This library makes it possible to take advantage of these
+inside Lisp programs.
+
+The only exported function is @c(pipe):
+
+@cl:with-package[name=unix-pipes](
+@cl:doc(function pipe))
+
+Here's a short example:
+
+@code(@include[path=example.lisp]())
+
+The streams provided are file streams. For example, on SBCL:
+
+@code(@include[path=sbcl.lisp]())
+
+and on LispWorks:
+
+@code(@include[path=lispworks.lisp]())
+
+As a technical note, the pipes are set up by:
+
+@begin(enum)
+
+@item(A call to @c(pipe(3)) is made. This returns the file descriptors.)
+@item(The @c(/proc) file system is used to get a path to the file descriptor on disk.)
+@item(The pair of these paths is @c(open)ed.)
+@item(The original file descriptors are closed.)
+
+@end(enum)
+
+Once @c(close) is called on the streams, there will be no more
+references to the pipe.
+
+@end(section)

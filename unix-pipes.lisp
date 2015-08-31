@@ -38,8 +38,8 @@ of the list."
   (merge-pathnames-unixly "/proc" (getpid) "fd" (to-string fd)))
 
 (defun pipe (&key (element-type '(unsigned-byte 8)))
-  "Return a list of the two ends of a Unix pipe. The #'first is the
-reader (input) stream, and the #'second is the writer (output) stream."
+  "Return a list of the two ends of a Unix pipe. The @c(#'first) is the
+reader (input) stream, and the @c(#'second) is the writer (output) stream."
   (multiple-value-bind (rfd wfd)
       (osicat-posix:pipe)
     (let ((r (open (fd-path rfd)
